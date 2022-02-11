@@ -97,6 +97,14 @@ namespace MAYoutubeDownload.Controllers
                                    youtubee.Container.Name + " " +
                                    youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
                     }
+                    foreach (var process in Process.GetProcessesByName("youtubedl"))
+                    {
+                        process.Kill();
+                    }
+                    foreach (var process in Process.GetProcessesByName("ffmpeg"))
+                    {
+                        process.Kill();
+                    }
                     return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + koshare);
                 }
 
