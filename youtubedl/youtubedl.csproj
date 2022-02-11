@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>youtubedl</AssemblyName>
+    <RootNamespace>youtubedl</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Compile Remove="NewFolder1\**" />
+    <Compile Remove="NewFolder2\**" />
+    <Compile Remove="subdl\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="NewFolder1\**" />
+    <Content Remove="NewFolder2\**" />
+    <Content Remove="subdl\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="NewFolder2\**" />
+    <EmbeddedResource Remove="subdl\**" />
+    <None Remove="Models\**" />
+    <None Remove="NewFolder1\**" />
+    <None Remove="NewFolder2\**" />
+    <None Remove="subdl\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YoutubeExplode" Version="6.0.8" />
+    <PackageReference Include="YoutubeExplode.Converter" Version="6.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="mysubdl\" />
+    <Folder Include="videodl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="fucksub.srt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
