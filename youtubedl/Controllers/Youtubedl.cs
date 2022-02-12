@@ -13,7 +13,7 @@ namespace MAYoutubeDownload.Controllers
 {
     [Route("")]
     [ApiController]
-    public class YoutubeController : Controller
+    public class Youtubedl : Controller
     {
         public string koshare;
 
@@ -23,9 +23,18 @@ namespace MAYoutubeDownload.Controllers
             {
                 if (url == null)
                 {
-                    return BadRequest("Use https://bsite.net/ytdl/?dl=1&&url=https://youtu.be/C0DPdy98e4c");
+                    return BadRequest("Your link Wrong!🤔");
                 }
 
+               
+                if (Directory.Exists("videodl")==false)
+                {
+                    Directory.CreateDirectory("videodl");
+                }
+                if (Directory.Exists("mysubdl") == false)
+                {
+                    Directory.CreateDirectory("mysubdl");
+                }
 
 
                 var youtube = new YoutubeClient();
@@ -138,6 +147,8 @@ namespace MAYoutubeDownload.Controllers
 
                     return File(b, contentType, fileDownloadName: path.Replace("videodl/", ""));
                 }
+
+              
 
                 return null;
             }
