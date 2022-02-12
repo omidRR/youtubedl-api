@@ -1,16 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using YoutubeExplode;
-using YoutubeExplode.Videos.Streams;
-using YoutubeExplode.Converter;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Net.Cache;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
+using YoutubeExplode;
+using YoutubeExplode.Converter;
+using YoutubeExplode.Videos.Streams;
 
 namespace MAYoutubeDownload.Controllers
 {
@@ -138,7 +135,7 @@ namespace MAYoutubeDownload.Controllers
                     var contentType = "application/omid-stream";
                     Byte[]
                         b = System.IO.File.ReadAllBytes(path);
-                  
+
                     return File(b, contentType, fileDownloadName: path.Replace("videodl/", ""));
                 }
 
