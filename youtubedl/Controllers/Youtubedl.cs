@@ -26,8 +26,8 @@ namespace MAYoutubeDownload.Controllers
                     return BadRequest("Your link Wrong!🤔");
                 }
 
-               
-                if (Directory.Exists("videodl")==false)
+
+                if (Directory.Exists("videodl") == false)
                 {
                     Directory.CreateDirectory("videodl");
                 }
@@ -113,9 +113,7 @@ namespace MAYoutubeDownload.Controllers
                     {
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                         WebClient dd = new WebClient();
-                        dd.DownloadFile(
-                            "https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v4.4.1/ffmpeg-4.4.1-win-64.zip",
-                            "ffmpeg.zip");
+                        dd.DownloadFile("https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v4.4.1/ffmpeg-4.4.1-win-64.zip", "ffmpeg.zip");
                         var filePath = "ffmpeg.zip";
                         ZipFile.ExtractToDirectory(filePath, "ffmpeg");
                     }
@@ -148,7 +146,7 @@ namespace MAYoutubeDownload.Controllers
                     return File(b, contentType, fileDownloadName: path.Replace("videodl/", ""));
                 }
 
-              
+
 
                 return null;
             }
