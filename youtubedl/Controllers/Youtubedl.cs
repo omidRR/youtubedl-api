@@ -28,12 +28,14 @@ namespace MAYoutubeDownload.Controllers
                     return BadRequest("Your link Wrong!🤔");
                 }
 
-                string[] files = Directory.GetFiles("mysubdl");
+                if (Directory.Exists("mysubdl"))
+                {
+                      string[] files = Directory.GetFiles("mysubdl");
                 foreach (string file in files)
                 {
                     System.IO.File.Delete(file);
                 }
-
+                }
                 if (Directory.Exists("videodl") == false)
                 {
                     Directory.CreateDirectory("videodl");
