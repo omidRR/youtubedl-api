@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
-using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YoutubeExplode;
@@ -18,8 +18,9 @@ namespace MAYoutubeDownload.Controllers
     public class Youtubedl : Controller
     {
         public string koshare;
+        public string kosharemusic;
         YoutubeClient youtube;
-        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot)
+        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot, string haghirmusic)
         {
             try
             {
@@ -30,11 +31,11 @@ namespace MAYoutubeDownload.Controllers
 
                 if (Directory.Exists("mysubdl"))
                 {
-                      string[] files = Directory.GetFiles("mysubdl");
-                foreach (string file in files)
-                {
-                    System.IO.File.Delete(file);
-                }
+                    string[] files = Directory.GetFiles("mysubdl");
+                    foreach (string file in files)
+                    {
+                        System.IO.File.Delete(file);
+                    }
                 }
                 if (Directory.Exists("videodl") == false)
                 {
@@ -53,57 +54,57 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-                //RestClient client = new RestClient("https://www.youtube.com/watch?v=CODPdy98e4c&bpctr=9999999999&hl=en");
-                ////     client.Proxy = proxyr.proxyxx();
-                //client.UserAgent =
-                //    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36";
-                //RestRequest request = new RestRequest(Method.GET);
-                //IRestResponse response = client.Execute(request);
+                RestClient client = new RestClient("https://www.youtube.com/watch?v=CODPdy98e4c&bpctr=9999999999&hl=en");
+                //     client.Proxy = proxyr.proxyxx();
+                client.UserAgent =
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36";
+                RestRequest request = new RestRequest(Method.GET);
+                IRestResponse response = client.Execute(request);
 
-                //if (response.StatusCode != HttpStatusCode.OK)
-                //{
-                //    var result = new HttpClientHandler();
-                //    var proxy = new WebProxy("u1.p.webshare.io:80")
-                //    {
-                //        Credentials = new NetworkCredential("bpddjimc-1", "7e9d2isi0qjs"),
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    var result = new HttpClientHandler();
+                    var proxy = new WebProxy("u1.p.webshare.io:80")
+                    {
+                        Credentials = new NetworkCredential("bpddjimc-1", "7e9d2isi0qjs"),
 
-                //    };
-                //    result = new HttpClientHandler
-                //    {
-                //        Proxy = proxy,
-                //        UseProxy = true
-                //    };
-                //    var httpClient = new HttpClient(result);
-                //    youtube = new YoutubeClient(httpClient);
-                //}
-                //else
-                //{
-                //    youtube = new YoutubeClient();
-                //}
-
-
-
-
-
-
-                var cook = new CookieContainer();
-                Cookie cook1 = new Cookie("APISID", "S_8PVzLOnHi538hy/AaP8wxMz33kmasd9f", "/", ".youtube.com");
-                Cookie cook2 = new Cookie("SAPISID", "xg4QQddE82k_DDn8/AAWxTP8h4nK1WrRN1", "/", ".youtube.com");
-                Cookie cook3 = new Cookie("LOGIN_INFO", "AFmmF2swRQIhALpdcFkq91MJiZCETslO6AlFH7meJH5UJlsb3Eg6pjGHAiBL0petmyQpuH9-iJ0fPnmq1Ey6zPBlqycSyDhbCAvP4w:QUQ3MjNmeE84b3RBdF9zQ2N0QW5OMkk2cE04OTNQX19maGVmZ2s4N2V1MW5KbE1rbkNnR0ZxeGh1SElnRTB6SnJZaUw5WWc4RzNXd3NtTjVzWkQ0bUlaOVp1Z0NJaGY0cU1rQ3psWjJzenVwQ1hGODFUMDVpVjc5WUQwMzhMdHhqNmFmZ3E0Z2xYUlhfQnNUNUphU1o3bTMySGdBc01LWExR", "/", ".youtube.com");
-                Cookie cook4 = new Cookie("GOOGLE_ABUSE_EXEMPTION", "ID=b6424e8ce0a77d85:TM=1644755186:C=r:IP=135.125.150.55-:S=I5Cbo3LlyGFvuTGMSkEtTi4", "/", ".youtube.com");
+                    };
+                    result = new HttpClientHandler
+                    {
+                        Proxy = proxy,
+                        UseProxy = true
+                    };
+                    var httpClient = new HttpClient(result);
+                    youtube = new YoutubeClient(httpClient);
+                }
+                else
+                {
+                    var cook = new CookieContainer();
+                    Cookie cook1 = new Cookie("APISID", "S_8PVzLOnHi538hy/AaP8wxMz33kmasd9f", "/", ".youtube.com");
+                    Cookie cook2 = new Cookie("SAPISID", "xg4QQddE82k_DDn8/AAWxTP8h4nK1WrRN1", "/", ".youtube.com");
+                    Cookie cook3 = new Cookie("LOGIN_INFO", "AFmmF2swRQIhALpdcFkq91MJiZCETslO6AlFH7meJH5UJlsb3Eg6pjGHAiBL0petmyQpuH9-iJ0fPnmq1Ey6zPBlqycSyDhbCAvP4w:QUQ3MjNmeE84b3RBdF9zQ2N0QW5OMkk2cE04OTNQX19maGVmZ2s4N2V1MW5KbE1rbkNnR0ZxeGh1SElnRTB6SnJZaUw5WWc4RzNXd3NtTjVzWkQ0bUlaOVp1Z0NJaGY0cU1rQ3psWjJzenVwQ1hGODFUMDVpVjc5WUQwMzhMdHhqNmFmZ3E0Z2xYUlhfQnNUNUphU1o3bTMySGdBc01LWExR", "/", ".youtube.com");
+                    Cookie cook4 = new Cookie("GOOGLE_ABUSE_EXEMPTION", "ID=b6424e8ce0a77d85:TM=1644755186:C=r:IP=135.125.150.55-:S=I5Cbo3LlyGFvuTGMSkEtTi4", "/", ".youtube.com");
 
 
 
-                cook.Add(cook1);
-                cook.Add(cook2);
-                cook.Add(cook3);
-                cook.Add(cook4);
+                    cook.Add(cook1);
+                    cook.Add(cook2);
+                    cook.Add(cook3);
+                    cook.Add(cook4);
 
 
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.CookieContainer = cook;
-                HttpClient httpClient = new HttpClient(handler);
-                youtube = new YoutubeClient(httpClient);
+                    HttpClientHandler handler = new HttpClientHandler();
+                    handler.CookieContainer = cook;
+                    HttpClient httpClient = new HttpClient(handler);
+                    youtube = new YoutubeClient(httpClient);
+                }
+
+
+
+
+
+
+             
 
 
 
@@ -168,6 +169,29 @@ namespace MAYoutubeDownload.Controllers
                     return File(b, contentType, fileDownloadName: masirsub.Replace("mysubdl/", ""));
 
                 }
+
+                if (dl == 4 && url.StartsWith("http"))
+                {
+                    foreach (var youtubee in streamManifest.GetAudioOnlyStreams())
+                    {
+                        kosharemusic += youtubee.Url.ToString() + " \n\n" + youtubee.AudioCodec + "       " + youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
+                    }
+                    return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + kosharemusic);
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
 
                 if (dl == 1 && url.StartsWith("http"))
                 {
