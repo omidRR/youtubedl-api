@@ -20,10 +20,12 @@ namespace MAYoutubeDownload.Controllers
         public string koshare;
         public string kosharemusic;
         YoutubeClient youtube;
-        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot, string haghirmusic)
+
+        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot, bool? jsontokhmi)
         {
             try
             {
+
                 if (url == null)
                 {
                     return BadRequest("Your link Wrong!🤔");
@@ -104,7 +106,7 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-             
+
 
 
 
@@ -170,26 +172,35 @@ namespace MAYoutubeDownload.Controllers
 
                 }
 
-                if (dl == 4 && url.StartsWith("http"))
+
+
+
+
+
+
+
+
+
+                if (dl == 4 && url.StartsWith("http") && jsontokhmi == null)
+                {
+                    return NotFound("use '&jsontokhmi=true' or false, last your link 😐");
+                }
+                if (dl == 4 && url.StartsWith("http") && jsontokhmi == true)
+                {
+                    JsonArray allArray = new JsonArray();
+                    allArray.Add("Channel Name:" + video.Author.Title);
+                    allArray.Add("Title:" + video.Title);
+                    allArray.AddRange(streamManifest.GetAudioOnlyStreams());
+                    return new JsonResult(allArray);
+                }
+                else if (dl == 4 && url.StartsWith("http") && jsontokhmi == false)
                 {
                     foreach (var youtubee in streamManifest.GetAudioOnlyStreams())
                     {
                         kosharemusic += youtubee.Url.ToString() + " \n\n" + youtubee.AudioCodec + "       " + youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
                     }
                     return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + kosharemusic);
-
-
                 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -243,8 +254,6 @@ namespace MAYoutubeDownload.Controllers
 
                     return File(b, contentType, fileDownloadName: path.Replace("videodl/", ""));
                 }
-
-
 
                 return null;
             }
