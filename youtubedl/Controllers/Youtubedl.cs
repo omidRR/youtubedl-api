@@ -3,6 +3,7 @@ using RestSharp;
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -179,8 +180,6 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-
-
                 if (dl == 4 && url.StartsWith("http") && jsontokhmi == null)
                 {
                     return NotFound("use '&jsontokhmi=true' or false, last your link 😐");
@@ -188,9 +187,8 @@ namespace MAYoutubeDownload.Controllers
                 if (dl == 4 && url.StartsWith("http") && jsontokhmi == true)
                 {
                     JsonArray allArray = new JsonArray();
-                    allArray.Add("Channel Name:" + video.Author.Title);
-                    allArray.Add("Title:" + video.Title);
-                    allArray.AddRange(streamManifest.GetAudioOnlyStreams());
+                    allArray.AddRange(streamManifest.GetAudioOnlyStreams().ToArray());
+
                     return new JsonResult(allArray);
                 }
                 else if (dl == 4 && url.StartsWith("http") && jsontokhmi == false)
