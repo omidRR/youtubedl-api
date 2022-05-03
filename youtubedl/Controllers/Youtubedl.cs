@@ -18,11 +18,11 @@ namespace MAYoutubeDownload.Controllers
     [ApiController]
     public class Youtubedl : Controller
     {
-        public string koshare;
-        public string kosharemusic;
+        public string vid;
+        public string music;
         YoutubeClient youtube;
 
-        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot, bool? jsontokhmi)
+        public async Task<IActionResult> InfoAsync(int dl, string url, string langbot, bool? json)
         {
             try
             {
@@ -105,14 +105,7 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-
-
-
-
-
-
-
-
+                
 
 
 
@@ -180,24 +173,24 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-                if (dl == 4 && url.StartsWith("http") && jsontokhmi == null)
+                if (dl == 4 && url.StartsWith("http") && json == null)
                 {
-                    return NotFound("use '&jsontokhmi=true' or false, last your link 😐");
+                    return NotFound("use '&json=true' or false, last your link 😐");
                 }
-                if (dl == 4 && url.StartsWith("http") && jsontokhmi == true)
+                if (dl == 4 && url.StartsWith("http") && json == true)
                 {
                     JsonArray allArray = new JsonArray();
                     allArray.AddRange(streamManifest.GetAudioOnlyStreams().ToArray());
 
                     return new JsonResult(allArray);
                 }
-                else if (dl == 4 && url.StartsWith("http") && jsontokhmi == false)
+                else if (dl == 4 && url.StartsWith("http") && json == false)
                 {
                     foreach (var youtubee in streamManifest.GetAudioOnlyStreams())
                     {
-                        kosharemusic += youtubee.Url.ToString() + " \n\n" + youtubee.AudioCodec + "       " + youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
+                        music += youtubee.Url.ToString() + " \n\n" + youtubee.AudioCodec + "       " + youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
                     }
-                    return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + kosharemusic);
+                    return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + music);
                 }
 
 
@@ -206,11 +199,11 @@ namespace MAYoutubeDownload.Controllers
                 {
                     foreach (var youtubee in streamManifest.GetMuxedStreams())
                     {
-                        koshare += youtubee.Url.ToString() + " \n\n" + youtubee.VideoQuality + " " +
+                        vid += youtubee.Url.ToString() + " \n\n" + youtubee.VideoQuality + " " +
                                    youtubee.Container.Name + " " +
                                    youtubee.Size.MegaBytes + "mb" + "\n___________________\n\n";
                     }
-                    return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + koshare);
+                    return Ok("Channel Name: " + video.Author.Title + "\nTitle: " + video.Title + "\n\n" + vid);
                 }
 
                 if (dl == 2 && url.StartsWith("http"))
