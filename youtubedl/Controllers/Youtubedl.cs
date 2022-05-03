@@ -105,7 +105,6 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-
                 var video = await youtube.Videos.GetAsync(url);
                 var streamManifest = await youtube.Videos.Streams.GetManifestAsync(video.Id);
                 Regex reg = new Regex("[*'\",_&#^@:|łŁ$ß€&@#<>÷×¤*.:,?;!}{đĐ~–ˇ^˘°˛`˙■´˝¨■¸/éáűúőöüóí()-]");
