@@ -57,31 +57,7 @@ namespace MAYoutubeDownload.Controllers
 
 
 
-                RestClient client = new RestClient("https://www.youtube.com/watch?v=CODPdy98e4c&bpctr=9999999999&hl=en");
-                //     client.Proxy = proxyr.proxyxx();
-                client.UserAgent =
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36";
-                RestRequest request = new RestRequest(Method.GET);
-                IRestResponse response = client.Execute(request);
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    var result = new HttpClientHandler();
-                    var proxy = new WebProxy("u1.p.webshare.io:80")
-                    {
-                        Credentials = new NetworkCredential("bpddjimc-1", "7e9d2isi0qjs"),
-
-                    };
-                    result = new HttpClientHandler
-                    {
-                        Proxy = proxy,
-                        UseProxy = true
-                    };
-                    var httpClient = new HttpClient(result);
-                    youtube = new YoutubeClient(httpClient);
-                }
-                else
-                {
+             
                     var cook = new CookieContainer();
                     Cookie cook1 = new Cookie("APISID", "S_8PVzLOnHi538hy/AaP8wxMz33kmasd9f", "/", ".youtube.com");
                     Cookie cook2 = new Cookie("SAPISID", "xg4QQddE82k_DDn8/AAWxTP8h4nK1WrRN1", "/", ".youtube.com");
@@ -98,14 +74,12 @@ namespace MAYoutubeDownload.Controllers
 
                     HttpClientHandler handler = new HttpClientHandler();
                     handler.CookieContainer = cook;
+                    
                     HttpClient httpClient = new HttpClient(handler);
                     youtube = new YoutubeClient(httpClient);
-                }
 
 
-
-
-                var video = await youtube.Videos.GetAsync(url);
+                    var video = await youtube.Videos.GetAsync(url);
                 var streamManifest = await youtube.Videos.Streams.GetManifestAsync(video.Id);
                 Regex reg = new Regex("[*'\",_&#^@:|łŁ$ß€&@#<>÷×¤*.:,?;!}{đĐ~–ˇ^˘°˛`˙■´˝¨■¸/éáűúőöüóí()-]");
                 var titleauthor = reg.Replace(video.Author.Title, string.Empty).Replace(@"\", "");
