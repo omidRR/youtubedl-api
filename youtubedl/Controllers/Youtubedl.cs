@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using YoutubeExplode;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Videos.Streams;
@@ -149,10 +150,10 @@ namespace MAYoutubeDownload.Controllers
                 }
                 if (dl == 4 && url.StartsWith("http") && json == true)
                 {
-                    JsonArray allArray = new JsonArray();
-                    allArray.AddRange(streamManifest.GetAudioOnlyStreams().ToArray());
 
-                    return new JsonResult(allArray);
+                    var allArray = JsonConvert.SerializeObject(streamManifest.GetAudioOnlyStreams(),Formatting.Indented);
+
+                 return Ok(allArray);
                 }
                 else if (dl == 4 && url.StartsWith("http") && json == false)
                 {
